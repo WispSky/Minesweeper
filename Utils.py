@@ -1,10 +1,12 @@
 
 cells = [[]]
 
+# update this file's reference to the cells array
 def setCells(arr):
     global cells
     cells = arr
 
+# count all bombs around a cell at (x, y)
 def countBombs(x, y):
     yy = y-1
     if yy < 0:
@@ -28,6 +30,7 @@ def countBombs(x, y):
             xx = 0
     return count
 
+# check if all non-bombs are revealed
 def allRevealed():
     for y in range(len(cells)):
         for x in range(len(cells[y])):
@@ -35,39 +38,19 @@ def allRevealed():
                 return False
     return True
 
+# win animation
 def winAnimation():
     for y in range(len(cells)):
         for x in range(len(cells[y])):
             cells[x][y].highlight = True
             waitMillis(16)
 
+# check for a win and start animation
 def checkWin():
     if allRevealed():
         winAnimation()
 
-# def allDead(x, y):
-#     yy = y-1
-#     if yy < 0:
-#         yy = 0
-#     xx = x-1
-#     if xx < 0:
-#         xx = 0
-#     count = 0
-#     while yy <= y+1:
-#         if yy >= len(cells):
-#             break
-#         while xx <= x+1:
-#             if xx >= len(cells):
-#                 break
-#             if cells[xx][yy].lost:
-#                 count += 1
-#             xx += 1
-#         yy += 1
-#         xx = x-1
-#         if xx < 0:
-#             xx = 0
-#     return count == 9
-
+# lose animation (adjacent spiral)
 def loseAnimation(bombX, bombY):
     x = bombX
     y = bombY
@@ -137,13 +120,8 @@ def loseAnimation(bombX, bombY):
             dir += 1
         if dir == 4:
             dir = 0
-            
-    # for y in range(len(cells)):
-    #     for x in range(len(cells[y])):
-    #         cell = cells[x][y]
-    #         cell.lost = True
-    #         waitMillis(10)
 
+# holds thread for m milliseconds
 def waitMillis(m):
     start = millis()
     while millis() < start+m:

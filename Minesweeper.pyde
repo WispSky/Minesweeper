@@ -1,15 +1,18 @@
 from Cell import Cell
 import Utils
 
+# final variables
 W = 500
 H = W
 SIZE = 20
 
+# globals
 cells = [range(SIZE) for y in range(SIZE)]
 bombX = -1
 bombY = -1
 started = False
 
+# creates a new grid
 def setupGrid():
     size = W / SIZE
     for y in range(SIZE):
@@ -17,6 +20,7 @@ def setupGrid():
             cells[x][y] = Cell(x, y, size)
     Utils.setCells(cells)
 
+# sets bombs in random locations on the grid
 def setBombs(percentage, notX, notY):
     numBombs = percentage * SIZE*SIZE
     while numBombs > 0:
@@ -28,6 +32,8 @@ def setBombs(percentage, notX, notY):
         randomCell.bomb = True
         numBombs -= 1
 
+# used to find all adjacent 0's
+# and reveal them when one is clicked
 def chunk(x, y):
     cells[x][y].click()
             
@@ -53,7 +59,8 @@ def chunk(x, y):
         xx = x-1
         if xx < 0:
             xx = 0
-    
+
+# on mouse press down
 def mousePressed():
     global started
     for y in range(len(cells)):
@@ -73,15 +80,18 @@ def mousePressed():
                     thread("lose")
                 thread("checkWin")
 
+# on key pressed down
 def keyPressed():
     global started
     if keyCode == ord('R'):
         setupGrid()
         started = False
 
+# check for a win
 def checkWin():
     Utils.checkWin()
 
+# start lose animation
 def lose():
     Utils.loseAnimation(bombX, bombY)
 
